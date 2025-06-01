@@ -2,7 +2,9 @@ import numpy as np
 import csv
 import os
 
+# Make output the directory if it doesn't exist
 outputDir = "finalClusters"
+os.makedirs(outputDir, exist_ok=True)
 
 # Assuming a csv file where each line is a centroid with n dimensions
 centroids = np.genfromtxt('centroids.csv', delimiter=',')
@@ -49,7 +51,7 @@ while (totalConverged < centroids.shape[0]) and (totalIterations < maxIterations
             # Counting a cluster with no pints as converged
             totalConverged += 1
 
-    if totalConverged == centroids.shape[0]:
+    if totalConverged == len(clusters):
         break
     else:
         totalIterations += 1
@@ -60,4 +62,8 @@ for i, c in enumerate(clusters):
 
         csvFile = csv.writer(f)
         csvFile.writerows(c)
+
+for i, cent in enumerate(centroids):
+
+    print(f"Cluster {i}: {cent}")
 
